@@ -1,0 +1,15 @@
+.inputContainer {
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 1.125rem;
+  }
+
+  input {
+    padding: 1rem;
+    border: 1px solid var(--gray-100);
+    border-radius: 4px;
+    filter: drop-shadow(0px 8px 4px var(--shadow-color));
+  }
+}

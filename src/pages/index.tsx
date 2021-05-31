@@ -1,6 +1,7 @@
 import Head from 'next/head';
 
 import Header from '../components/Header';
+import Input from '../components/Input';
 
 import styles from '../styles/home.module.scss';
 
@@ -14,7 +15,7 @@ export default function Home(): JSX.Element {
       <Header />
 
       <main className={styles.mainContainer}>
-        <h1>Hello World!</h1>
+        <Input name="amount" label="Dólar" placeholder="$ 1,00" />
       </main>
     </>
   );

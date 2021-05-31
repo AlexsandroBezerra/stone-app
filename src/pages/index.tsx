@@ -1,5 +1,7 @@
 import Head from 'next/head';
 
+import Header from '../components/Header';
+
 export default function Home(): JSX.Element {
   return (
     <>
@@ -7,7 +9,7 @@ export default function Home(): JSX.Element {
         <title>Início | Conversor BRL-USD</title>
       </Head>
 
-      <h1>Hello, World!</h1>
+      <Header />
     </>
   );
 }

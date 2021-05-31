@@ -15,7 +15,10 @@ export default function Home(): JSX.Element {
       <Header />
 
       <main className={styles.mainContainer}>
-        <Input name="amount" label="Dólar" placeholder="$ 1,00" />
+        <div className={styles.inputGroup}>
+          <Input name="amount" label="Dólar" placeholder="$ 1,00" />
+          <Input name="tax" label="Taxa do Estado" placeholder="0 %" />
+        </div>
       </main>
     </>
   );

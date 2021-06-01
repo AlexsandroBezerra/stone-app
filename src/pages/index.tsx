@@ -21,15 +21,17 @@ export default function Home(): JSX.Element {
           <Input name="tax" label="Taxa do Estado" placeholder="0 %" />
         </div>
 
+        <p className={styles.inputTitle}>Tipo de compra</p>
+
         <div className={styles.inputGroup}>
           <label htmlFor="money" className={styles.radioButtonContainer}>
             <input type="radio" id="money" name="payment-type" />
-            Dinheiro
+            <span>Dinheiro</span>
           </label>
 
           <label htmlFor="card" className={styles.radioButtonContainer}>
             <input type="radio" id="card" name="payment-type" />
-            Cartão
+            <span>Cartão</span>
           </label>
         </div>
 

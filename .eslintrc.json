@@ -27,6 +27,7 @@
     "react/jsx-props-no-spreading": "off",
     "import/no-unresolved": "off",
     "import/extensions": "off",
+    "react/button-has-type": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }]
   }

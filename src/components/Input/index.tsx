@@ -1,16 +1,17 @@
+import { InputHTMLAttributes } from 'react';
 import styles from './styles.module.scss';
 
-interface InputProps {
-  name: string;
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  placeholder: string;
 }
 
-export default function Input({ name, label, placeholder = '' }: InputProps): JSX.Element {
+export default function Input({
+  name, label, placeholder = '', ...rest
+}: InputProps): JSX.Element {
   return (
     <div className={styles.inputContainer}>
       <label htmlFor={name}>{label}</label>
-      <input type="text" id={name} placeholder={placeholder} />
+      <input type="text" id={name} placeholder={placeholder} {...rest} />
     </div>
   );
 }

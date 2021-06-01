@@ -12,7 +12,7 @@
   background: var(--green-500);
   font-weight: 500;
 
-  transition: filter 0.2s;
+  transition: 0.2s;
 
   &:hover:enabled {
     filter: brightness(0.9);

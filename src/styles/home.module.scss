@@ -2,11 +2,24 @@
   margin-top: 6.25rem;
 
   button {
-    margin-top: 3rem;
+    margin-top: 0.5rem;
   }
 }
 
 .inputGroup {
   display: flex;
   gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.radioButtonContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+
+  input {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
 }

@@ -45,6 +45,17 @@ export default function Home(): JSX.Element {
             placeholder="$ 1,00"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
+            maskOptions={{
+              prefix: '$ ',
+              includeThousandsSeparator: true,
+              thousandsSeparatorSymbol: '.',
+              allowDecimal: true,
+              decimalSymbol: ',',
+              decimalLimit: 2,
+              integerLimit: 7,
+              allowNegative: false,
+              allowLeadingZeroes: false,
+            }}
           />
 
           <Input
@@ -53,6 +64,16 @@ export default function Home(): JSX.Element {
             placeholder="0 %"
             value={tax}
             onChange={(e) => setTax(e.target.value)}
+            maskOptions={{
+              prefix: '',
+              suffix: ' %',
+              allowDecimal: true,
+              decimalSymbol: ',',
+              decimalLimit: 2,
+              integerLimit: 3,
+              allowNegative: false,
+              allowLeadingZeroes: false,
+            }}
           />
         </div>
 

@@ -10,7 +10,7 @@ import styles from '../styles/home.module.scss';
 export default function Home(): JSX.Element {
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
   const [paymentType, setPaymentType] = useState('cash');
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState('$ 1,00');
   const [tax, setTax] = useState('');
 
   useEffect(() => {
@@ -34,6 +34,8 @@ export default function Home(): JSX.Element {
       <Head>
         <title>Início | Conversor BRL-USD</title>
       </Head>
+
+      <img src="/graph.svg" alt="Círculos" className="graphImage" />
 
       <Header />
 

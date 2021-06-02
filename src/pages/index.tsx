@@ -35,7 +35,7 @@ export default function Home(): JSX.Element {
         <title>Início | Conversor BRL-USD</title>
       </Head>
 
-      <img src="/graph.svg" alt="Círculos" className="graphImage" />
+      <img src="/graph.svg" alt="Círculos" className="graphImageBackground" />
 
       <Header />
 

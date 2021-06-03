@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import { format } from 'date-fns';
+import { ptBR } from 'date-fns/locale';
 
 import Header from '../components/Header';
 import Input from '../components/Input';
@@ -153,9 +155,16 @@ export const getStaticProps: GetStaticProps = async () => {
   );
   const parsedResponse: FetchResponse = await response.json();
 
+  const date = new Date(parsedResponse.USDBRL.create_date);
+  const formattedDate = format(
+    date,
+    "dd 'de' MMMM yyyy | HH:mm 'UTC'",
+    { locale: ptBR },
+  );
+
   return {
     props: {
-      date: parsedResponse.USDBRL.create_date,
+      date: formattedDate,
       dollarValue: Number(parsedResponse.USDBRL.ask),
     },
     revalidate: 30,

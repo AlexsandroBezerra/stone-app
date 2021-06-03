@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
@@ -20,6 +21,8 @@ export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
   const [paymentType, setPaymentType] = useState<'cash' | 'card'>('cash');
   const [amountText, setAmountText] = useState('$ 1,00');
   const [taxText, setTaxText] = useState('');
+
+  const router = useRouter();
 
   useEffect(() => {
     if (amountText.length > 0 && taxText.length > 0) {
@@ -46,12 +49,32 @@ export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
       const iof = 1.011;
       const result = amount * tax * dollarValue * iof;
 
-      window.alert(`Valor em reais: ${result}`);
+      const data = {
+        result,
+        iof,
+        tax,
+        dollarValue,
+        paymentType,
+        date,
+      };
+
+      sessionStorage.setItem('@stone-app/last-request', JSON.stringify(data));
+      router.push('/result');
     } else {
       const iof = 1.0638;
       const result = amount * tax * dollarValue * iof;
 
-      window.alert(`Valor em reais: ${result}`);
+      const data = {
+        result,
+        iof,
+        tax,
+        dollarValue,
+        paymentType,
+        date,
+      };
+
+      localStorage.setItem('@stone-app/last-request', JSON.stringify(data));
+      router.push('/result');
     }
   }
 
@@ -60,8 +83,6 @@ export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
       <Head>
         <title>Início | Conversor BRL-USD</title>
       </Head>
-
-      <img src="/graph.svg" alt="Círculos" className="graphImageBackground" />
 
       <Header date={date} />
 

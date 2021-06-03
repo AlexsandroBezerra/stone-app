@@ -1,0 +1,47 @@
+.mainContainer {
+  h2 {
+    margin-top: 2rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-size: 4rem;
+    font-weight: 500;
+    color: var(--green-500);
+    margin: 0.5rem 0 2rem;
+  }
+
+  p {
+    color: var(--gray-500);
+    font-weight: 500;
+    margin: 1rem 0;
+  }
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  padding: 1rem;
+
+  border: none;
+  border-radius: 8px;
+  border: 1px solid var(--gray-100);
+  box-shadow: 0px 8px 4px var(--shadow-color);
+
+  color: var(--gray-700);
+  background: var(--white);
+  font-weight: 500;
+
+  transition: 0.2s;
+
+  &:hover:enabled {
+    filter: brightness(0.9);
+  }
+
+  &:disabled {
+    background: var(--gray-300);
+  }
+}

@@ -149,6 +149,7 @@ export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
               checked={paymentType === 'card'}
               onChange={() => setPaymentType('card')}
             />
+
             <span>Cartão</span>
           </label>
         </div>

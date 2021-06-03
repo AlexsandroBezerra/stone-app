@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
 import Header from '../components/Header';
+import formatCurrency from '../utils/formatCurrency';
 
 import styles from '../styles/result.module.scss';
 
@@ -31,14 +32,6 @@ export default function Result(): JSX.Element {
 
   function goBack() {
     router.push('/');
-  }
-
-  function formatCurrency(value: number) {
-    return new Intl.NumberFormat('pt-br', {
-      currency: 'BRL',
-      style: 'currency',
-    })
-      .format(value);
   }
 
   if (!data) {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
 import Header from '../components/Header';
@@ -7,26 +8,49 @@ import ConvertButton from '../components/ConvertButton';
 
 import styles from '../styles/home.module.scss';
 
-export default function Home(): JSX.Element {
+interface HomeProps {
+  date: string
+  dollarValue: number
+}
+
+export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
   const [isButtonEnabled, setIsButtonEnabled] = useState(false);
-  const [paymentType, setPaymentType] = useState('cash');
-  const [amount, setAmount] = useState('$ 1,00');
-  const [tax, setTax] = useState('');
+  const [paymentType, setPaymentType] = useState<'cash' | 'card'>('cash');
+  const [amountText, setAmountText] = useState('$ 1,00');
+  const [taxText, setTaxText] = useState('');
 
   useEffect(() => {
-    if (amount.length > 0 && tax.length > 0) {
+    if (amountText.length > 0 && taxText.length > 0) {
       setIsButtonEnabled(true);
     } else {
       setIsButtonEnabled(false);
     }
-  }, [amount, tax]);
+  }, [amountText, taxText]);
 
   function handleSubmit() {
-    console.log({
-      paymentType,
-      amount,
-      tax,
-    });
+    const amountWithoutMask = amountText
+      .split(' ')[1]
+      .replaceAll('.', '')
+      .replace(',', '.');
+
+    const taxWithoutMask = taxText
+      .split(' ')[0]
+      .replace(',', '.');
+
+    const amount = Number(amountWithoutMask);
+    const tax = (Number(taxWithoutMask) / 100) + 1;
+
+    if (paymentType === 'cash') {
+      const iof = 1.011;
+      const result = amount * tax * dollarValue * iof;
+
+      window.alert(`Valor em reais: ${result}`);
+    } else {
+      const iof = 1.0638;
+      const result = amount * tax * dollarValue * iof;
+
+      window.alert(`Valor em reais: ${result}`);
+    }
   }
 
   return (
@@ -37,7 +61,7 @@ export default function Home(): JSX.Element {
 
       <img src="/graph.svg" alt="Círculos" className="graphImageBackground" />
 
-      <Header />
+      <Header date={date} />
 
       <main className={styles.mainContainer}>
         <div className={styles.inputGroup}>
@@ -45,8 +69,8 @@ export default function Home(): JSX.Element {
             name="amount"
             label="Dólar"
             placeholder="$ 1,00"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            value={amountText}
+            onChange={(e) => setAmountText(e.target.value)}
             maskOptions={{
               prefix: '$ ',
               includeThousandsSeparator: true,
@@ -64,8 +88,8 @@ export default function Home(): JSX.Element {
             name="tax"
             label="Taxa do Estado"
             placeholder="0 %"
-            value={tax}
-            onChange={(e) => setTax(e.target.value)}
+            value={taxText}
+            onChange={(e) => setTaxText(e.target.value)}
             maskOptions={{
               prefix: '',
               suffix: ' %',
@@ -115,3 +139,25 @@ export default function Home(): JSX.Element {
     </>
   );
 }
+
+type FetchResponse = {
+  USDBRL: {
+    ask: string;
+    create_date: string;
+  }
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const response = await fetch(
+    'https://economia.awesomeapi.com.br/json/last/USD-BRL',
+  );
+  const parsedResponse: FetchResponse = await response.json();
+
+  return {
+    props: {
+      date: parsedResponse.USDBRL.create_date,
+      dollarValue: Number(parsedResponse.USDBRL.ask),
+    },
+    revalidate: 30,
+  };
+};

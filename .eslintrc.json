@@ -30,6 +30,7 @@
     "react/button-has-type": "off",
     "react/require-default-props": "off",
     "jsx-a11y/label-has-associated-control": "off",
+    "camelcase": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx", ".ts"] }]
   }
 }

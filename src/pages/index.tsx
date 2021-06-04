@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -32,7 +32,9 @@ export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
     }
   }, [amountText, taxText]);
 
-  function handleSubmit() {
+  function handleSubmit(event: FormEvent) {
+    event.preventDefault();
+
     const amountWithoutMask = amountText
       .split(' ')[1]
       .replaceAll('.', '')
@@ -87,78 +89,76 @@ export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
       <Header date={date} />
 
       <main className={styles.mainContainer}>
-        <div className={styles.inputGroup}>
-          <Input
-            name="amount"
-            label="Dólar"
-            placeholder="$ 1,00"
-            value={amountText}
-            onChange={(e) => setAmountText(e.target.value)}
-            maskOptions={{
-              prefix: '$ ',
-              includeThousandsSeparator: true,
-              thousandsSeparatorSymbol: '.',
-              allowDecimal: true,
-              decimalSymbol: ',',
-              decimalLimit: 2,
-              integerLimit: 7,
-              allowNegative: false,
-              allowLeadingZeroes: false,
-            }}
-          />
-
-          <Input
-            name="tax"
-            label="Taxa do Estado"
-            placeholder="0 %"
-            value={taxText}
-            onChange={(e) => setTaxText(e.target.value)}
-            maskOptions={{
-              prefix: '',
-              suffix: ' %',
-              allowDecimal: true,
-              decimalSymbol: ',',
-              decimalLimit: 2,
-              integerLimit: 3,
-              allowNegative: false,
-              allowLeadingZeroes: false,
-            }}
-          />
-        </div>
-
-        <p className={styles.inputTitle}>Tipo de compra</p>
-
-        <div className={styles.inputGroup}>
-          <label htmlFor="money" className={styles.radioButtonContainer}>
-            <input
-              type="radio"
-              id="money"
-              name="payment-type"
-              checked={paymentType === 'cash'}
-              onChange={() => setPaymentType('cash')}
+        <form onSubmit={handleSubmit}>
+          <div className={styles.inputGroup}>
+            <Input
+              name="amount"
+              label="Dólar"
+              placeholder="$ 1,00"
+              value={amountText}
+              onChange={(e) => setAmountText(e.target.value)}
+              maskOptions={{
+                prefix: '$ ',
+                includeThousandsSeparator: true,
+                thousandsSeparatorSymbol: '.',
+                allowDecimal: true,
+                decimalSymbol: ',',
+                decimalLimit: 2,
+                integerLimit: 7,
+                allowNegative: false,
+                allowLeadingZeroes: false,
+              }}
             />
 
-            <span>Dinheiro</span>
-          </label>
-
-          <label htmlFor="card" className={styles.radioButtonContainer}>
-            <input
-              type="radio"
-              id="card"
-              name="payment-type"
-              checked={paymentType === 'card'}
-              onChange={() => setPaymentType('card')}
+            <Input
+              name="tax"
+              label="Taxa do Estado"
+              placeholder="0 %"
+              value={taxText}
+              onChange={(e) => setTaxText(e.target.value)}
+              maskOptions={{
+                prefix: '',
+                suffix: ' %',
+                allowDecimal: true,
+                decimalSymbol: ',',
+                decimalLimit: 2,
+                integerLimit: 3,
+                allowNegative: false,
+                allowLeadingZeroes: false,
+              }}
             />
+          </div>
 
-            <span>Cartão</span>
-          </label>
-        </div>
+          <p className={styles.inputTitle}>Tipo de compra</p>
 
-        <ConvertButton
-          type="button"
-          disabled={!isButtonEnabled}
-          onClick={handleSubmit}
-        />
+          <div className={styles.inputGroup}>
+            <label htmlFor="money" className={styles.radioButtonContainer}>
+              <input
+                type="radio"
+                id="money"
+                name="payment-type"
+                checked={paymentType === 'cash'}
+                onChange={() => setPaymentType('cash')}
+              />
+
+              <span>Dinheiro</span>
+            </label>
+
+            <label htmlFor="card" className={styles.radioButtonContainer}>
+              <input
+                type="radio"
+                id="card"
+                name="payment-type"
+                checked={paymentType === 'card'}
+                onChange={() => setPaymentType('card')}
+              />
+
+              <span>Cartão</span>
+            </label>
+          </div>
+
+          <ConvertButton type="submit" disabled={!isButtonEnabled} />
+        </form>
       </main>
     </>
   );

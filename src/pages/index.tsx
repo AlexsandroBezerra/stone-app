@@ -52,9 +52,9 @@ export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
       const data = {
         result,
         iof,
-        tax,
+        tax: taxWithoutMask,
         dollarValue,
-        paymentType,
+        paymentType: 'dinheiro',
         date,
       };
 
@@ -67,9 +67,9 @@ export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
       const data = {
         result,
         iof,
-        tax,
+        tax: taxWithoutMask,
         dollarValue,
-        paymentType,
+        paymentType: 'cartão',
         date,
       };
 

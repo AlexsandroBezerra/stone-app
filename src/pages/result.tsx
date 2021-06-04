@@ -8,17 +8,17 @@ import formatCurrency from '../utils/formatCurrency';
 import styles from '../styles/result.module.scss';
 
 type Data = {
+  dollarValue: number
   result: number
   iof: number
   tax: number
-  dollarValue: number
-  paymentType: string
   date: string
+  paymentType: string
 }
 
 export default function Result(): JSX.Element {
   const router = useRouter();
-  const [data, setData] = useState<Data | null>(null);
+  const [storedData, setStoredData] = useState<Data | null>(null);
 
   useEffect(() => {
     const dataString = sessionStorage.getItem('@stone-app/last-request');
@@ -26,7 +26,7 @@ export default function Result(): JSX.Element {
     if (!dataString) {
       router.push('/');
     } else {
-      setData(JSON.parse(dataString));
+      setStoredData(JSON.parse(dataString));
     }
   }, []);
 
@@ -34,7 +34,7 @@ export default function Result(): JSX.Element {
     router.push('/');
   }
 
-  if (!data) {
+  if (!storedData) {
     return null;
   }
 
@@ -44,7 +44,7 @@ export default function Result(): JSX.Element {
         <title>Resultado | Conversor BRL-USD</title>
       </Head>
 
-      <Header date={data.date} />
+      <Header date={storedData.date} />
 
       <main className={styles.mainContainer}>
         <button className={styles.backButton} onClick={goBack}>
@@ -53,19 +53,22 @@ export default function Result(): JSX.Element {
         </button>
 
         <h2>O resultado do cálculo é</h2>
-        <h1>{formatCurrency(data.result)}</h1>
+        <h1>{formatCurrency(storedData.result)}</h1>
 
         <p>
           Compra no
           {' '}
-          {data.paymentType}
+          {storedData.paymentType}
           {' '}
-          e taxa de 5.3%
+          e taxa de
+          {' '}
+          {storedData.tax}
+          %
         </p>
         <p>
           Cotação do dólar: $ 1,00 =
           {' '}
-          {formatCurrency(data.dollarValue)}
+          {formatCurrency(storedData.dollarValue)}
         </p>
       </main>
     </>

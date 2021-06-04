@@ -10,6 +10,7 @@ import Input from '../components/Input';
 import ConvertButton from '../components/ConvertButton';
 
 import styles from '../styles/home.module.scss';
+import RadioButton from '../components/RadioButton';
 
 interface HomeProps {
   date: string
@@ -132,29 +133,21 @@ export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
           <p className={styles.inputTitle}>Tipo de compra</p>
 
           <div className={styles.inputGroup}>
-            <label htmlFor="money" className={styles.radioButtonContainer}>
-              <input
-                type="radio"
-                id="money"
-                name="payment-type"
-                checked={paymentType === 'cash'}
-                onChange={() => setPaymentType('cash')}
-              />
+            <RadioButton
+              id="money"
+              name="payment-type"
+              checked={paymentType === 'cash'}
+              onChange={() => setPaymentType('cash')}
+              label="Dinheiro"
+            />
 
-              <span>Dinheiro</span>
-            </label>
-
-            <label htmlFor="card" className={styles.radioButtonContainer}>
-              <input
-                type="radio"
-                id="card"
-                name="payment-type"
-                checked={paymentType === 'card'}
-                onChange={() => setPaymentType('card')}
-              />
-
-              <span>Cartão</span>
-            </label>
+            <RadioButton
+              id="card"
+              name="payment-type"
+              checked={paymentType === 'card'}
+              onChange={() => setPaymentType('card')}
+              label="Cartão"
+            />
           </div>
 
           <ConvertButton type="submit" disabled={!isButtonEnabled} />

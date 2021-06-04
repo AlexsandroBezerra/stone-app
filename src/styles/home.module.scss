@@ -15,35 +15,3 @@
   font-weight: 500;
   font-size: 1.125rem;
 }
-
-.radioButtonContainer {
-  cursor: pointer;
-
-  input {
-    display: none;
-  }
-
-  input + span {
-    display: flex;
-    align-items: center;
-    font-weight: 500;
-  }
-
-  input + span::before {
-    content: "";
-    display: inline-block;
-    vertical-align: bottom;
-    width: 1rem;
-    height: 1rem;
-    margin-right: 0.5rem;
-    border-radius: 50%;
-    border-style: solid;
-    border-width: 0.15rem;
-    border-color: var(--gray-300);
-  }
-
-  input:checked + span::before {
-    background: radial-gradient(var(--green-500) 0%, var(--green-500) 40%, transparent 50%, transparent) center;
-    border-color: var(--green-500);
-  }
-}

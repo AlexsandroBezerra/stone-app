@@ -76,7 +76,7 @@ export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
         date,
       };
 
-      localStorage.setItem('@stone-app/last-request', JSON.stringify(data));
+      sessionStorage.setItem('@stone-app/last-request', JSON.stringify(data));
       router.push('/result');
     }
   }

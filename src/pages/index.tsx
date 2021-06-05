@@ -177,11 +177,13 @@ export const getStaticProps: GetStaticProps = async () => {
     { locale: ptBR },
   );
 
+  const thirtySeconds = 30;
+
   return {
+    revalidate: thirtySeconds,
     props: {
       date: formattedDate,
       dollarValue: Number(parsedResponse.USDBRL.ask),
     },
-    revalidate: 30,
   };
 };

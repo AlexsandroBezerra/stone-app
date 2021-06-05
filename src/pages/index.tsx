@@ -1,9 +1,10 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
+import { setCookie } from 'nookies';
 
 import Header from '../components/Header';
 import Input from '../components/Input';
@@ -22,8 +23,6 @@ export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
   const [paymentType, setPaymentType] = useState<'cash' | 'card'>('cash');
   const [amountText, setAmountText] = useState('$ 1,00');
   const [taxText, setTaxText] = useState('');
-
-  const router = useRouter();
 
   useEffect(() => {
     if (amountText.length > 0 && taxText.length > 0) {
@@ -48,37 +47,27 @@ export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
     const amount = Number(amountWithoutMask);
     const tax = (Number(taxWithoutMask) / 100) + 1;
 
+    let iof: number;
+
     if (paymentType === 'cash') {
-      const iof = 1.011;
-      const result = amount * tax * dollarValue * iof;
-
-      const data = {
-        result,
-        iof,
-        tax: taxWithoutMask,
-        dollarValue,
-        paymentType: 'dinheiro',
-        date,
-      };
-
-      sessionStorage.setItem('@stone-app/last-request', JSON.stringify(data));
-      router.push('/result');
+      iof = 1 + 0.011;
     } else {
-      const iof = 1.0638;
-      const result = amount * tax * dollarValue * iof;
-
-      const data = {
-        result,
-        iof,
-        tax: taxWithoutMask,
-        dollarValue,
-        paymentType: 'cartão',
-        date,
-      };
-
-      sessionStorage.setItem('@stone-app/last-request', JSON.stringify(data));
-      router.push('/result');
+      iof = 1 + 0.0638;
     }
+
+    const result = amount * tax * dollarValue * iof;
+
+    const data = {
+      result,
+      iof,
+      tax: taxWithoutMask,
+      dollarValue,
+      paymentType: 'cartão',
+      date,
+    };
+
+    setCookie(undefined, 'stonecurrency.last_request', JSON.stringify(data));
+    Router.push('/result');
   }
 
   return (

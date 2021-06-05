@@ -1,41 +1,27 @@
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
+import Router from 'next/router';
+import { GetServerSideProps } from 'next';
+import { parseCookies } from 'nookies';
 
 import Header from '../components/Header';
 import formatCurrency from '../utils/formatCurrency';
 
 import styles from '../styles/result.module.scss';
 
-type Data = {
-  dollarValue: number
-  result: number
-  iof: number
-  tax: number
-  date: string
-  paymentType: string
-}
+type ResultProps = {
+  lastRequest: {
+    dollarValue: number;
+    result: number;
+    iof: number;
+    tax: number;
+    date: string;
+    paymentType: string;
+  };
+};
 
-export default function Result(): JSX.Element {
-  const router = useRouter();
-  const [storedData, setStoredData] = useState<Data | null>(null);
-
-  useEffect(() => {
-    const dataString = sessionStorage.getItem('@stone-app/last-request');
-
-    if (!dataString) {
-      router.push('/');
-    } else {
-      setStoredData(JSON.parse(dataString));
-    }
-  }, []);
-
+export default function Result({ lastRequest }: ResultProps): JSX.Element {
   function goBack() {
-    router.push('/');
-  }
-
-  if (!storedData) {
-    return null;
+    Router.push('/');
   }
 
   return (
@@ -44,7 +30,7 @@ export default function Result(): JSX.Element {
         <title>Resultado | Conversor BRL-USD</title>
       </Head>
 
-      <Header date={storedData.date} />
+      <Header date={lastRequest.date} />
 
       <main className={styles.mainContainer}>
         <button className={styles.backButton} onClick={goBack}>
@@ -53,24 +39,43 @@ export default function Result(): JSX.Element {
         </button>
 
         <h2>O resultado do cálculo é</h2>
-        <h1>{formatCurrency(storedData.result)}</h1>
+        <h1>{formatCurrency(lastRequest.result)}</h1>
 
         <p>
           Compra no
           {' '}
-          {storedData.paymentType}
+          {lastRequest.paymentType}
           {' '}
           e taxa de
           {' '}
-          {storedData.tax}
+          {lastRequest.tax}
           %
         </p>
         <p>
           Cotação do dólar: $ 1,00 =
           {' '}
-          {formatCurrency(storedData.dollarValue)}
+          {formatCurrency(lastRequest.dollarValue)}
         </p>
       </main>
     </>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { 'stonecurrency.last_request': lastRequest } = parseCookies(ctx);
+
+  if (!lastRequest) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
+
+  const parsedLastRequest = JSON.parse(lastRequest);
+
+  return {
+    props: { lastRequest: parsedLastRequest },
+  };
+};

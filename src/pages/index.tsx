@@ -47,13 +47,10 @@ export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
     const amount = Number(amountWithoutMask);
     const tax = (Number(taxWithoutMask) / 100) + 1;
 
-    let iof: number;
+    const cashIof = 1 + 0.011;
+    const cardIof = 1 + 0.0638;
 
-    if (paymentType === 'cash') {
-      iof = 1 + 0.011;
-    } else {
-      iof = 1 + 0.0638;
-    }
+    const iof = paymentType === 'cash' ? cashIof : cardIof;
 
     const result = amount * tax * dollarValue * iof;
 

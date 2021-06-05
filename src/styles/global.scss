@@ -23,7 +23,7 @@ body {
   color: var(--gray-700);
   -webkit-font-smoothing: antialiased;
   background: var(--white) url("/background.png") no-repeat fixed bottom right;
-  background-size: 95% 100vh;
+  background-size: auto 100%;
 }
 
 body, input, button {
@@ -39,17 +39,13 @@ a {
   text-decoration: none;
 }
 
-.graphImageBackground {
-  position: absolute;
-  top: 18%;
-  right: 18%;
-  width: 18rem;
-  height: 18rem;
-}
-
 @media (max-width: 1080px) {
   html {
     font-size: 93.75%;
+  }
+
+  body {
+    background-size: auto 85%;
   }
 }
 
@@ -59,6 +55,6 @@ a {
   }
 
   body {
-    background-size: 50%;
+    background-size: auto 50%;
   }
 }

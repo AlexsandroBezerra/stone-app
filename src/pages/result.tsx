@@ -15,8 +15,13 @@ type ResultProps = {
     iof: number;
     tax: number;
     date: string;
-    paymentType: string;
+    paymentType: 'cash' | 'card';
   };
+};
+
+const paymentTypes = {
+  cash: 'dinheiro',
+  card: 'cartão',
 };
 
 export default function Result({ lastRequest }: ResultProps): JSX.Element {
@@ -44,7 +49,7 @@ export default function Result({ lastRequest }: ResultProps): JSX.Element {
         <p>
           Compra no
           {' '}
-          {lastRequest.paymentType}
+          {paymentTypes[lastRequest.paymentType]}
           {' '}
           e taxa de
           {' '}

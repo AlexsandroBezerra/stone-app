@@ -62,7 +62,7 @@ export default function Home({ date, dollarValue }: HomeProps): JSX.Element {
       iof,
       tax: taxWithoutMask,
       dollarValue,
-      paymentType: 'cartão',
+      paymentType,
       date,
     };
 

@@ -8,10 +8,18 @@
   display: flex;
   gap: 1.5rem;
   margin-bottom: 2rem;
+  max-width: 21.5rem;
 }
 
 .inputTitle {
   margin-bottom: 1rem;
   font-weight: 500;
   font-size: 1.125rem;
+}
+
+@media (max-width: 500px) {
+  .inputGroup {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }
